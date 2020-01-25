@@ -14,7 +14,7 @@ namespace dotnet_kafka
     {
       var config = new Dictionary<string, object>
       {
-        { "bootstrap.servers", "localhost:9092" }
+        { "bootstrap.servers", "127.0.0.1:9092" }
       };
 
       using (var producer = new Producer<Null, string>(config, null, new StringSerializer(Encoding.UTF8)))
