@@ -1,9 +1,9 @@
-# dotnet-kafka
+# Dotnet example of using Kafka  
 
-For kafka:
+## For kafka:  
+docker-compose up -d  
+Open http://localhost:9021 to see control center  
 
-docker-compose up -d
-
-dotnet build Consumer/
-
-dotnet build Producer/
+## For applications:  
+dotnet build Consumer/  
+dotnet build Producer/  
