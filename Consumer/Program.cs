@@ -13,18 +13,18 @@ namespace dotnet_kafka
     {
       var config = new Dictionary<string, object>
       {
-          { "group.id", "sample-consumer" },
+          { "group.id", "sample-consumer"},//+Guid.NewGuid().ToString() },
           { "bootstrap.servers", "127.0.0.1:9092" },
           { "enable.auto.commit", "false"}
       };
 
-      using (var consumer = new Consumer<Null, string>(config, null, new StringDeserializer(Encoding.UTF8)))
+      using (var consumer = new Consumer<int, string>(config, new IntDeserializer(), new StringDeserializer(Encoding.UTF8)))
       {                
-        consumer.Subscribe(new string[]{"hello-topic"});
+        consumer.Subscribe(new string[]{"messaging-topic"});
 
         consumer.OnMessage += (_, msg) => 
         {
-          Console.WriteLine($"Topic: {msg.Topic} Partition: {msg.Partition} Offset: {msg.Offset} {msg.Value}");
+          Console.WriteLine($"Topic: {msg.Topic} Partition: {msg.Partition} Offset: {msg.Offset} Key:{msg.Key} Value:{msg.Value}");
           consumer.CommitAsync(msg);
         };
 

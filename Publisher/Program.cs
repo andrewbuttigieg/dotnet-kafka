@@ -17,16 +17,20 @@ namespace dotnet_kafka
         { "bootstrap.servers", "127.0.0.1:9092" }
       };
 
-      using (var producer = new Producer<Null, string>(config, null, new StringSerializer(Encoding.UTF8)))
+      using (var producer = new Producer<int, string>(config, new IntSerializer(), new StringSerializer(Encoding.UTF8)))
       {
         string text = null;
-
+        Random random = new Random();
         while (text != "exit")
         {
-            Console.WriteLine("Type a phrase and press [Enter] to publish:");
-          text = Console.ReadLine();                          
-          Console.WriteLine($"Publishing {text}");                                                                                                                                    
-          producer.ProduceAsync("hello-topic", null, text);
+          Console.WriteLine("Type a phrase and press [Enter] to publish:");
+          text = Console.ReadLine();   
+          for(int i = 0; i < 1000; i ++)                       
+          {
+            int key = (int)(random.NextDouble() * 255);
+            Console.WriteLine($"Publishing {text} for key {key}");
+            producer.ProduceAsync("messaging-topic", key, text);
+          }
         }
 
         producer.Flush(100);
